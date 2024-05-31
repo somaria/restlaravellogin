@@ -90,6 +90,21 @@ class AuthController extends Controller
         }
     }
 
+    public function logout()
+    {
+        try {
+
+            /** @var \App\Models\MyUserModel $user **/
+            $user = Auth::user();
+
+            $user->currentAccessToken()->delete();
+            return ResponseHelper::success('success', 'User logged out successfully', [], 200);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return ResponseHelper::error('error', $e->getMessage(), [], 500);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
